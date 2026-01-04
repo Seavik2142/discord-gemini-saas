@@ -1,6 +1,19 @@
-"scripts": {
-  "start": "node apps/bot/index.js",
-  "bot": "node apps/bot/index.js",
-  "deploy": "node apps/bot/deploy-commands.js",
-  "dashboard": "node apps/dashboard/server.js"
+{
+  "name": "discord-gemini-saas",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node apps/bot/index.js",
+    "bot": "node apps/bot/index.js",
+    "deploy": "node apps/bot/deploy-commands.js",
+    "dashboard": "node apps/dashboard/server.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.1",
+    "express": "^4.19.2",
+    "groq-sdk": "^0.37.0",
+    "pg": "^8.11.3",
+    "compute-cosine-similarity": "^1.1.0"
+  }
 }
