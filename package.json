@@ -9,11 +9,11 @@
     "dashboard": "node apps/dashboard/server.js"
   },
   "dependencies": {
+    "compute-cosine-similarity": "^1.1.0",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.1",
-    "express": "^4.19.2",
+    "express": "^4.22.1",
     "groq-sdk": "^0.37.0",
-    "pg": "^8.11.3",
-    "compute-cosine-similarity": "^1.1.0"
+    "pg": "^8.11.3"
   }
 }

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits, Events } = require("discord.js");
 const initDatabase = require("../../packages/database/init");
+const keepAlive = require("./server"); // 👈 ១. បន្ថែមការ require file server
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
@@ -20,7 +21,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
     } catch (err) {
       console.error("❌ Interaction error:", err);
 
-      // safety reply
       if (!interaction.replied && !interaction.deferred) {
         await interaction.reply({
           content: "❌ Something went wrong.",
@@ -34,6 +34,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
 // 🚀 START BOT
 (async () => {
   try {
+    // 👈 ២. ហៅឱ្យ Web Server ដំណើរការមុនពេល Bot Login
+    keepAlive(); 
+
     if (process.env.POSTGRES_URL) {
       console.log("🗄️ Initializing database...");
       await initDatabase();
