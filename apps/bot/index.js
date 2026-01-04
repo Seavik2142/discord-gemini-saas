@@ -18,14 +18,33 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const aiCommand = require("./commands/ai");
       await aiCommand(interaction);
     } catch (err) {
-      console.error("Interaction error:", err);
+      console.error("❌ Interaction error:", err);
+
+      // safety reply
+      if (!interaction.replied && !interaction.deferred) {
+        await interaction.reply({
+          content: "❌ Something went wrong.",
+          ephemeral: true,
+        });
+      }
     }
   }
 });
 
 // 🚀 START BOT
 (async () => {
-  console.log("🗄️ Initializing database...");
-  await initDatabase();
-  await client.login(process.env.DISCORD_TOKEN);
+  try {
+    if (process.env.POSTGRES_URL) {
+      console.log("🗄️ Initializing database...");
+      await initDatabase();
+      console.log("🗄️ Database connected");
+    } else {
+      console.log("⚠️ Database skipped (POSTGRES_URL not set)");
+    }
+
+    await client.login(process.env.DISCORD_TOKEN);
+  } catch (err) {
+    console.error("❌ Bot startup failed:", err);
+    process.exit(1);
+  }
 })();
