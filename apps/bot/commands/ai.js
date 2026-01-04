@@ -1,30 +1,30 @@
-const generateText = require("../../services/ai.service");
+const { generateAIResponse } = require('../services/ai.service');
 
 module.exports = async (interaction) => {
   try {
-    const prompt =
-      interaction.options.getString("prompt") ||
-      interaction.options.getString("question");
+    const prompt = interaction.options.getString('prompt');
 
     if (!prompt) {
       return interaction.reply({
-        content: "❌ Please provide a prompt.",
-        ephemeral: true,
+        content: '❌ Please provide a prompt.',
+        flags: 64
       });
     }
 
     await interaction.deferReply();
 
-    const result = await generateText(prompt);
+    const response = await generateAIResponse(prompt);
 
-    await interaction.editReply(result);
+    await interaction.editReply(response);
   } catch (err) {
     console.error("AI command error:", err);
 
-    if (!interaction.replied && !interaction.deferred) {
+    if (interaction.deferred || interaction.replied) {
+      await interaction.editReply('❌ AI error occurred.');
+    } else {
       await interaction.reply({
-        content: "❌ AI error occurred.",
-        ephemeral: true,
+        content: '❌ AI error occurred.',
+        flags: 64
       });
     }
   }

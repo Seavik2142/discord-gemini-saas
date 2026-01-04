@@ -1,11 +1,9 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { generateText } = require('../../../packages/ai-core/groq');
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-async function askGemini(prompt) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-  const result = await model.generateContent(prompt);
-  return result.response.text();
+async function generateAIResponse(prompt) {
+  return await generateText(prompt);
 }
 
-module.exports = { askGemini };
+module.exports = {
+  generateAIResponse
+};
