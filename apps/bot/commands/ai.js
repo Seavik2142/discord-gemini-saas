@@ -1,29 +1,29 @@
-const generateText = require('../../../packages/ai-core/groq');
+const generateText = require("../../services/ai.service");
 
 module.exports = async (interaction) => {
   try {
-    // ✅ correct option name
-    const question = interaction.options.getString('question');
+    const prompt =
+      interaction.options.getString("prompt") ||
+      interaction.options.getString("question");
 
-    if (!question) {
+    if (!prompt) {
       return interaction.reply({
-        content: '❗ Please provide a prompt.',
+        content: "❌ Please provide a prompt.",
         ephemeral: true,
       });
     }
 
     await interaction.deferReply();
 
-    const answer = await generateText(question);
+    const result = await generateText(prompt);
 
-    await interaction.editReply(answer);
-
+    await interaction.editReply(result);
   } catch (err) {
-    console.error('AI Command Error:', err);
+    console.error("AI command error:", err);
 
     if (!interaction.replied && !interaction.deferred) {
       await interaction.reply({
-        content: '⚠️ AI error occurred.',
+        content: "❌ AI error occurred.",
         ephemeral: true,
       });
     }
