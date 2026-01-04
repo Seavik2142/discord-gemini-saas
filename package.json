@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
+    "start": "node apps/bot/index.js",
     "bot": "node apps/bot/index.js",
     "deploy": "node apps/bot/deploy-commands.js",
     "dashboard": "node apps/dashboard/server.js"
