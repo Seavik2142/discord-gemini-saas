@@ -1,27 +1,29 @@
-const { generateText } = require("../../../packages/ai-core/groq");
+const generateText = require('../../../packages/ai-core/groq');
 
 module.exports = async (interaction) => {
   try {
-    // ⭐ MUST defer to avoid "application did not respond"
-    await interaction.deferReply();
+    // ✅ correct option name
+    const question = interaction.options.getString('question');
 
-    const prompt = interaction.options.getString("prompt");
-
-    if (!prompt) {
-      return await interaction.editReply("❗ Please provide a prompt.");
+    if (!question) {
+      return interaction.reply({
+        content: '❗ Please provide a prompt.',
+        ephemeral: true,
+      });
     }
 
-    const response = await generateText(prompt);
+    await interaction.deferReply();
 
-    await interaction.editReply(response);
-  } catch (error) {
-    console.error("AI Command Error:", error);
+    const answer = await generateText(question);
 
-    if (interaction.deferred || interaction.replied) {
-      await interaction.editReply("⚠️ AI is temporarily unavailable.");
-    } else {
+    await interaction.editReply(answer);
+
+  } catch (err) {
+    console.error('AI Command Error:', err);
+
+    if (!interaction.replied && !interaction.deferred) {
       await interaction.reply({
-        content: "⚠️ AI is temporarily unavailable.",
+        content: '⚠️ AI error occurred.',
         ephemeral: true,
       });
     }
