@@ -1,7 +1,7 @@
-async function createEmbedding(text) {
-  // Groq does not support embeddings
-  // Return null to keep system stable
-  return null;
+// 🚫 Embeddings disabled (Groq free tier safe)
+
+async function createEmbedding() {
+  return [];
 }
 
 module.exports = { createEmbedding };
